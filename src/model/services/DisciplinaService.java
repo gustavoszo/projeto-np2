@@ -1,5 +1,7 @@
 package model.services;
 
+import java.util.List;
+
 import model.dao.DisciplinaDao;
 import model.entities.Disciplina;
 
@@ -17,6 +19,10 @@ public class DisciplinaService {
 	
 	public Disciplina findById(Disciplina disciplina) {
 		return disciplinaDao.findById(String.valueOf(disciplina.getId()));
+	}
+	
+	public List<Disciplina> findAll() {
+		return disciplinaDao.findAll();
 	}
 	
 	public void delete(Disciplina disciplina) {

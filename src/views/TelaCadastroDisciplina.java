@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -34,6 +35,7 @@ public class TelaCadastroDisciplina extends JFrame {
         // Label Título
         labelTitulo = new JLabel("CADASTRO DE DISCIPLINA");
         labelTitulo.setBounds(30, 20, 300, 30);
+        labelTitulo.setFont(new Font("calibri", Font.BOLD, 18));
 
         // Label e Campo Nome
         labelNome = new JLabel("Nome: ");

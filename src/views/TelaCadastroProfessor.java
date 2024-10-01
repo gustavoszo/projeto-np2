@@ -41,8 +41,8 @@ public class TelaCadastroProfessor extends JFrame {
 
          // Inicializando os JLabels
          labelTitulo = new JLabel("Cadastro de professor");
-         labelTitulo.setBounds(30, 10, 250, 30);
-         labelTitulo.setFont(new Font("Calibri", Font.BOLD, 20));
+         labelTitulo.setBounds(30, 15, 250, 30);
+         labelTitulo.setFont(new Font("Calibri", Font.BOLD, 18));
 
          labelNome = new JLabel("Nome:");
          labelNome.setBounds(30, 50, 100, 30);

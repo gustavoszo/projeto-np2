@@ -1,5 +1,7 @@
 package model.services;
 
+import java.util.List;
+
 import model.dao.AlunoDao;
 import model.entities.Aluno;
 
@@ -18,6 +20,11 @@ public class AlunoService {
 	public Aluno findById(Aluno aluno) {
 		return alunoDao.findById(String.valueOf(aluno.getId()));
 	}
+	
+	public List<Aluno> findAll() {
+		return alunoDao.findAll();
+	}
+	
 	
 	public void delete(Aluno aluno) {
 		alunoDao.deleteById(String.valueOf(aluno.getId()));

@@ -1,5 +1,7 @@
 package model.services;
 
+import java.util.List;
+
 import model.dao.CursoDao;
 import model.entities.Curso;
 
@@ -17,6 +19,10 @@ public class CursoService {
 	
 	public Curso findById(Curso curso) {
 		return cursoDao.findById(String.valueOf(curso.getId()));
+	}
+	
+	public List<Curso> findAll() {
+		return cursoDao.findAll();
 	}
 	
 	public void delete(Curso curso) {

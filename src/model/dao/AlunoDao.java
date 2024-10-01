@@ -1,7 +1,10 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
+
 import DB.Db;
 import model.entities.Aluno;
 
@@ -9,7 +12,7 @@ public class AlunoDao implements EntityDao<Aluno> {
 	
 	private Connection connection;
 	
-	public void AlunoDaoImpl() {
+	public void AlunoDao() {
 		this.connection = Db.getConnection();
 	}
 
@@ -27,7 +30,7 @@ public class AlunoDao implements EntityDao<Aluno> {
 
 	@Override
 	public List<Aluno> findAll() {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 

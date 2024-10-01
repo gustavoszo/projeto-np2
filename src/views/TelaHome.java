@@ -10,6 +10,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import controllers.CursoController;
+import model.entities.Curso;
+
 public class TelaHome extends JFrame implements ActionListener {
 
     JMenuBar bMenu;
@@ -95,7 +98,10 @@ public class TelaHome extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == menuCurso) {
-            new TelaCadastroCurso(this).setVisible(true);
+            TelaCadastroCurso telaCadastroCurso = new TelaCadastroCurso(this);
+            telaCadastroCurso.setCursoController(new CursoController());
+            telaCadastroCurso.setCurso(new Curso());
+            telaCadastroCurso.setVisible(true);
             this.setVisible(false);
         }
         

@@ -1,59 +1,85 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 
+import DB.DbException;
+import controllers.CursoController;
+import model.entities.Curso;
+import model.exceptions.ValidationException;
+
 public class TelaCadastroCurso extends JFrame {
 
-    private TelaHome home;
-
+	private TelaHome home;
+    private Curso curso;
+    private CursoController cursoController;
+    
+    // Components
     JButton btnSalvar, btnLimpar, btnConsultar, btnDeletar;
-    JLabel labelTitulo;
-    JLabel labelCurso;
-    JLabel labelPeriodo;
+    JLabel labelTitulo, labelCurso, labelPeriodo;
+    JLabel labelErrorCurso, labelErrorPeriodo;
     JRadioButton radioManha, radioNoite, radioTarde;
     ButtonGroup groupPeriodo;
     JComboBox<String> listCursos;
 
     public TelaCadastroCurso(TelaHome home) {
         this.home = home;
+        
         initComponents();
     }
 
     public void initComponents() {
+    	setTitle("Gerenciamento de Cursos");
         setResizable(false);
-        setSize(500, 400);
+        setSize(500, 380);
         setLocation(100, 100);
         setLayout(null);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         labelTitulo = new JLabel("CADASTRO DE CURSO");
-        labelTitulo.setLocation(20, 10);
+        labelTitulo.setLocation(35, 20);
         labelTitulo.setSize(250, 20);
+        labelTitulo.setFont(new Font("calibri", Font.BOLD, 18));
 
         labelCurso = new JLabel("Selecione o curso");
         labelCurso.setLocation(35, 65);
-        labelCurso.setSize(95, 20);
+        labelCurso.setSize(120, 20);
 
         labelPeriodo = new JLabel("Periodo");
         labelPeriodo.setLocation(35, 150);
         labelPeriodo.setSize(80, 20);
+        
+        labelErrorCurso = new JLabel("");
+        labelErrorCurso.setLocation(220, 90);
+        labelErrorCurso.setSize(170, 30);
+        labelErrorCurso.setForeground(Color.red);
+        
+        labelErrorPeriodo = new JLabel("");
+        labelErrorPeriodo.setLocation(250, 170);
+        labelErrorPeriodo.setSize(120, 30);
+        labelErrorPeriodo.setForeground(Color.red);
 
         String[] cursos = { "Administração de Empresas", "Bio Medicina", "Ciências Biológicas", "Ciencias da Computação",
                 "Direito", "Educação Física", "Farmacologia", "Rede de Computadores", "Sistemas de Informações" };
 
-        listCursos = new JComboBox<String>(cursos); // Parâmetro de tipo String
+        listCursos = new JComboBox<String>(cursos); 
+        listCursos.setSelectedItem(null);
         listCursos.setLocation(35, 90);
-        listCursos.setSize(150, 30);
+        listCursos.setSize(160, 30);
 
         radioManha = new JRadioButton("Manhã", false);
         radioManha.setLocation(35, 170);
@@ -73,30 +99,52 @@ public class TelaCadastroCurso extends JFrame {
         groupPeriodo.add(radioNoite);
 
         btnSalvar = new JButton("Salvar");
-        btnSalvar.setLocation(50, 310);
-        btnSalvar.setSize(80, 30);
-        btnSalvar.setBackground(new Color(150, 220, 255));
+        btnSalvar.setLocation(10, 280);
+        btnSalvar.setSize(100, 30);
+        btnSalvar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnSalvarActionListener(e);
+			}
+        });
 
         btnLimpar = new JButton("Limpar");
-        btnLimpar.setLocation(150, 310);
-        btnLimpar.setSize(80, 30);
-        btnLimpar.setBackground(new Color(150, 220, 255));
+        btnLimpar.setLocation(130, 280);
+        btnLimpar.setSize(100, 30);
+        btnLimpar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnLimparActionListener(e);
+			}
+        });
 
         btnConsultar = new JButton("Consultar");
-        btnConsultar.setSize(80, 30);
-        btnConsultar.setLocation(250, 310);
-        btnConsultar.setBackground(new Color(150, 220, 255));
-
+        btnConsultar.setSize(100, 30);
+        btnConsultar.setLocation(250, 280);
         btnConsultar.addActionListener(e -> {
-            new TelaListaCurso(this).setVisible(true);
+            TelaListaCurso telaListaCurso = new TelaListaCurso(this);
+            telaListaCurso.setVisible(true);
             this.setVisible(false);
         });
 
         btnDeletar = new JButton("Deletar");
-        btnDeletar.setSize(80, 30);
-        btnDeletar.setLocation(350, 310);
-        btnDeletar.setBackground(new Color(150, 220, 255));
+        btnDeletar.setSize(100, 30);
+        btnDeletar.setLocation(370, 280);
         btnDeletar.setVisible(false);
+        btnDeletar.addActionListener(e -> {
+        	int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente apagar o curso?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        	if (confirm != JOptionPane.YES_OPTION) return;
+        	
+        	try {
+        		cursoController.delete(this.curso);        	
+        		JOptionPane.showMessageDialog(null, "Curso apagado com suceso!");
+        		btnLimparActionListener(e);
+        		unloadCurso();
+        	} catch (DbException ex) {
+        		JOptionPane.showMessageDialog(null, "Ocorreu um erro ao apagar o curso: " + ex.getMessage());
+        	}
+        	
+        });
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -110,6 +158,9 @@ public class TelaCadastroCurso extends JFrame {
         add(labelTitulo);
         add(labelCurso);
         add(labelPeriodo);
+        add(labelErrorCurso);
+        add(labelErrorPeriodo);
+        add(labelPeriodo);
         add(listCursos);
         add(radioManha);
         add(radioTarde);
@@ -119,7 +170,85 @@ public class TelaCadastroCurso extends JFrame {
         add(btnConsultar);
         add(btnDeletar);
     }
-
+    
+    private void btnSalvarActionListener(ActionEvent e) {
+    	String nome = (String) listCursos.getSelectedItem();
+    	String periodo = null;
+    	
+    	if (radioManha.isSelected()) {
+    		periodo = "Manhã";
+    	} else if (radioTarde.isSelected()) {
+    		periodo = "Tarde";
+    	} else if (radioNoite.isSelected()) {
+    		periodo = "Noite";
+    	}
+    	
+    	curso.setNome(nome);
+    	curso.setPeriodo(periodo);
+    	Integer id = curso.getId();
+    	
+    	try {
+    		cursoController.save(curso);
+    		
+    		if (id == null) {
+    			JOptionPane.showMessageDialog(null, "Curso cadastro com sucesso!");
+    		} else {
+    			JOptionPane.showMessageDialog(null, "Curso atualizado com sucesso!");
+    		}
+    		
+    		btnLimparActionListener(e);
+    		unloadCurso();
+    	}
+  	
+    	catch (ValidationException f) {
+    		Set<String> errors = f.getErrors().keySet();
+    		
+    		if (errors.contains("nome")) {
+    			labelErrorCurso.setText(f.getErrors().get("nome"));
+    		}
+    		if (errors.contains("periodo")) {
+    			labelErrorPeriodo.setText(f.getErrors().get("periodo"));
+    		}
+    	}
+    	
+    	catch (DbException sqlEx) {
+    		JOptionPane.showMessageDialog(null, sqlEx.getMessage());
+    	}
+    }
+    
+    private void btnLimparActionListener(ActionEvent e) {
+    	labelErrorCurso.setText("");
+		labelErrorPeriodo.setText("");
+		listCursos.setSelectedItem(null);
+		groupPeriodo.clearSelection();
+    }
+    
+    public void loadCurso(Curso curso) {
+    	labelTitulo.setText("Editando o curso ID: " + curso.getId());
+    	btnDeletar.setVisible(true);
+    	
+    	this.curso = curso;
+    	listCursos.setSelectedItem(curso.getNome());
+    	
+    	switch(curso.getPeriodo()) {
+    		case "Manhã":
+    			radioManha.setSelected(true);
+    			break;
+    		case "Tarde":
+    			radioTarde.setSelected(true);
+    			break;
+    		default:
+    			radioNoite.setSelected(true);
+    	}
+    }
+    
+    public void unloadCurso() {
+    	labelTitulo.setText("CADASTRO DE CURSO");
+    	btnDeletar.setVisible(false);
+    	this.curso = new Curso();
+    }
+    
+    // Getters e Setters
 	public TelaHome getHome() {
 		return home;
 	}
@@ -127,6 +256,24 @@ public class TelaCadastroCurso extends JFrame {
 	public void setHome(TelaHome home) {
 		this.home = home;
 	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public CursoController getCursoController() {
+		return cursoController;
+	}
+
+	public void setCursoController(CursoController cursoController) {
+		this.cursoController = cursoController;
+	}
+	
+	
     
 
 }

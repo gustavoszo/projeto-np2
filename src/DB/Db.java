@@ -13,8 +13,8 @@ public class Db {
 	public static Connection getConnection() {
 		if (conn == null) {
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/faculdade?useSSL=false", "root",
-						"password");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/projeto_np2?useSSL=false", "root",
+						"Gustavo30252015");
 			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
 			}
