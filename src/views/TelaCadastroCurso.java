@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Set;
 
 import javax.swing.ButtonGroup;
@@ -13,6 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
@@ -35,10 +36,12 @@ public class TelaCadastroCurso extends JFrame {
     JRadioButton radioManha, radioNoite, radioTarde;
     ButtonGroup groupPeriodo;
     JComboBox<String> listCursos;
+    JMenu menuHome;
+    JMenuBar menuBar;
+    JMenuItem menuItem;
 
     public TelaCadastroCurso(TelaHome home) {
         this.home = home;
-        
         initComponents();
     }
 
@@ -48,7 +51,16 @@ public class TelaCadastroCurso extends JFrame {
         setSize(500, 380);
         setLocation(100, 100);
         setLayout(null);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        menuHome = new JMenu("Home");
+        menuItem = new JMenuItem("Ir para home");
+        menuItem.addActionListener(e -> {
+        	this.home.setVisible(true);
+        	this.dispose();
+        });
+        menuHome.add(menuItem);
+        
 
         labelTitulo = new JLabel("CADASTRO DE CURSO");
         labelTitulo.setLocation(35, 20);
@@ -145,16 +157,10 @@ public class TelaCadastroCurso extends JFrame {
         	}
         	
         });
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                TelaCadastroCurso tela = (TelaCadastroCurso) e.getWindow();
-                tela.home.setVisible(true);
-                tela.dispose();
-            }
-        });
-
+        
+        menuBar = new JMenuBar();
+        menuBar.add(menuHome);
+        setJMenuBar(menuBar);
         add(labelTitulo);
         add(labelCurso);
         add(labelPeriodo);

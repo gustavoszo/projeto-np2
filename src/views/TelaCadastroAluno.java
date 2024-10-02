@@ -7,7 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 public class TelaCadastroAluno extends JFrame {
 	
@@ -17,6 +22,9 @@ public class TelaCadastroAluno extends JFrame {
 	private JTextField nomeField, cpfField, emailField, dataNascField;
 	private JList<String> listaCursos;
 	private JButton btnSalvar, btnLimpar, btnConsultar, btnDeletar;
+	private JMenuBar menuBar;
+	private JMenu menuHome;
+	JMenuItem menuItem;
 
 	public TelaCadastroAluno(TelaHome home) {
 		this.home = home;
@@ -26,7 +34,16 @@ public class TelaCadastroAluno extends JFrame {
 	private void initComponents() {
 		setBounds(400, 250, 500, 400);
 		getContentPane().setLayout(null);
-
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		menuHome = new JMenu("Home");
+		menuItem = new JMenuItem("Ir para home");
+	    menuItem.addActionListener(e -> {
+	    	this.home.setVisible(true);
+	        this.dispose();
+	    });
+	    menuHome.add(menuItem);
+		
 		// Labels
 		nome = new JLabel("Nome:");
 		nome.setBounds(30, 30, 100, 25);
@@ -78,15 +95,9 @@ public class TelaCadastroAluno extends JFrame {
 		btnDeletar.setBounds(390, 480, 100, 40);
 		btnDeletar.setVisible(false);
 		
-		addWindowListener(new WindowAdapter() {
-			 @Override
-	         public void windowClosing(WindowEvent e) {
-				 TelaCadastroAluno tela = (TelaCadastroAluno) e.getWindow();
-	             tela.home.setVisible(true);
-	             tela.dispose();
-			 }
-	     });
-
+	    menuBar = new JMenuBar();
+	    menuBar.add(menuHome);
+	    setJMenuBar(menuBar);
 		getContentPane().add(nome);
 		getContentPane().add(cpf);
 		getContentPane().add(email);

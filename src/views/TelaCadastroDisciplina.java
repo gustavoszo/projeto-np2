@@ -8,7 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import model.entities.Curso;
 
@@ -20,6 +24,9 @@ public class TelaCadastroDisciplina extends JFrame {
     JTextField txtNome, txtCargaHoraria;
     JComboBox<Curso> listaCurso;
     JButton btnSalvar, btnLimpar, btnConsultar, btnDeletar;
+    JMenuBar menuBar;
+    JMenu menuHome;
+    JMenuItem menuItem;
 
     public TelaCadastroDisciplina(TelaHome home) {
         this.home = home;
@@ -31,6 +38,15 @@ public class TelaCadastroDisciplina extends JFrame {
         setSize(600, 500);
         setLocation(400, 250);
         setLayout(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        menuHome = new JMenu("Home");
+        menuItem = new JMenuItem("Ir para home");
+        menuItem.addActionListener(e -> {
+        	this.home.setVisible(true);
+        	this.dispose();
+        });
+        menuHome.add(menuItem);
 
         // Label Título
         labelTitulo = new JLabel("CADASTRO DE DISCIPLINA");
@@ -76,16 +92,9 @@ public class TelaCadastroDisciplina extends JFrame {
         btnDeletar.setBounds(390, 350, 100, 40);
         btnDeletar.setVisible(false);
         
-        addWindowListener(new WindowAdapter() {
-			 @Override
-	         public void windowClosing(WindowEvent e) {
-				 TelaCadastroDisciplina tela = (TelaCadastroDisciplina) e.getWindow();
-	             tela.home.setVisible(true);
-	             tela.dispose();
-			 }
-	     });
-
-        // Adicionando os componentes
+        menuBar = new JMenuBar();
+        menuBar.add(menuHome);
+        setJMenuBar(menuBar);
         add(labelTitulo);
         add(labelNome);
         add(txtNome);

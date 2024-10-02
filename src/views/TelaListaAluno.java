@@ -8,20 +8,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class TelaListaAluno extends JFrame {
@@ -30,7 +22,10 @@ public class TelaListaAluno extends JFrame {
 
 	JTable table;
 	JLabel labelTitulo;
-
+	JMenuBar menuBar;
+	JMenu menuCadastro;
+	JMenuItem menuItem;
+	
 	public TelaListaAluno(TelaCadastroAluno tela) {
 		this.telaCadastroAluno = tela;
 		initComponents();
@@ -41,6 +36,15 @@ public class TelaListaAluno extends JFrame {
 	    setResizable(false);
 	    setSize(600, 500);
 	    setLocation(100, 100);
+	    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	   
+	    menuCadastro = new JMenu("Cadastrar novo Aluno");
+	    menuItem = new JMenuItem("Ir para cadastro");
+        menuItem.addActionListener(e -> {
+        	this.telaCadastroAluno.setVisible(true);
+        	this.dispose();
+        });
+        menuCadastro.add(menuItem);
 
 	    labelTitulo = new JLabel("Lista de alunos");
 	    labelTitulo.setFont(new Font("Calibri", Font.BOLD, 20));
@@ -65,18 +69,12 @@ public class TelaListaAluno extends JFrame {
 	            }
 	        }
 	    });
-
+	    
+	    menuBar = new JMenuBar();
+        menuBar.add(menuCadastro);
+        setJMenuBar(menuBar);
 	    add(labelTitulo);
 	    add(scrollPane);
-
-	    addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	            TelaListaAluno tela = (TelaListaAluno) e.getWindow();
-	            tela.dispose();
-	            tela.telaCadastroAluno.setVisible(true);
-	        }
-	    });
 
 	    setLayout(null);
 

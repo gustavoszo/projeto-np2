@@ -10,7 +10,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.text.MaskFormatter;
 
 public class TelaCadastroProfessor extends JFrame {
@@ -26,6 +30,9 @@ public class TelaCadastroProfessor extends JFrame {
     // Mudar para ComboBox de <Disiciplina>
     JComboBox<String> comboBoxDisciplinas;
     JButton btnSalvar, btnLimpar, btnConsultar, btnDeletar;
+    JMenuBar menuBar;
+    JMenu menuHome;
+    JMenuItem menuItem;
 
     public TelaCadastroProfessor(TelaHome home) {
     	this.home = home;
@@ -38,6 +45,15 @@ public class TelaCadastroProfessor extends JFrame {
          setSize(680, 580);
          setLocation(100, 100);
          setLayout(null);
+         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+         
+         menuHome = new JMenu("Home");
+         menuItem = new JMenuItem("Ir para home");
+         menuItem.addActionListener(e -> {
+         	this.home.setVisible(true);
+         	this.dispose();
+         });
+         menuHome.add(menuItem);
 
          // Inicializando os JLabels
          labelTitulo = new JLabel("Cadastro de professor");
@@ -132,15 +148,9 @@ public class TelaCadastroProfessor extends JFrame {
          btnDeletar.setBounds(390, 480, 100, 40);
          btnDeletar.setVisible(false);
          
-         addWindowListener(new WindowAdapter() {
-			 @Override
-	         public void windowClosing(WindowEvent e) {
-				 TelaCadastroAluno tela = (TelaCadastroAluno) e.getWindow();
-	             tela.getHome().setVisible(true);
-	             tela.dispose();
-			 }
-	     });
-
+         menuBar = new JMenuBar();
+         menuBar.add(menuHome);
+         setJMenuBar(menuBar);
          // Adicionando os componentes ao JFrame
          add(labelTitulo);
          add(labelNome);

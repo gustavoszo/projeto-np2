@@ -3,16 +3,18 @@ package views;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import controllers.CursoController;
@@ -26,6 +28,9 @@ public class TelaListaCurso extends JFrame {
     // Components
     JTable table;
     JLabel labelTitulo;
+    JMenuBar menuBar;
+    JMenu menuCadastro;
+    JMenuItem menuItem;
 
     public TelaListaCurso(TelaCadastroCurso tela) {
         this.telaCadastroCurso = tela;
@@ -39,6 +44,16 @@ public class TelaListaCurso extends JFrame {
         setSize(600, 500);
         setLocation(400, 250);
         setLayout(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        menuCadastro = new JMenu("Cadastrar novo Curso");
+        menuItem = new JMenuItem("Ir para cadastro");
+        menuItem.addActionListener(e -> {
+        	this.telaCadastroCurso.setVisible(true);
+        	this.dispose();
+        });
+        menuCadastro.add(menuItem);
+
 
         labelTitulo = new JLabel("Lista de cursos cadastrados");
         labelTitulo.setFont(new Font("calibri", Font.BOLD, 20));
@@ -73,16 +88,10 @@ public class TelaListaCurso extends JFrame {
         		tableMouseListener(e);
         	}
         });
-        
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                TelaListaCurso tela = (TelaListaCurso) e.getWindow();
-                tela.telaCadastroCurso.setVisible(true);
-                tela.dispose();
-            }
-        });
 
+        menuBar = new JMenuBar();
+        menuBar.add(menuCadastro);
+        setJMenuBar(menuBar);
         add(labelTitulo);
         add(scrollPane);
     }

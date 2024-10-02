@@ -3,25 +3,15 @@ package views;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class TelaListaProfessor extends JFrame {
@@ -30,6 +20,9 @@ public class TelaListaProfessor extends JFrame {
 
 	JTable table;
 	JLabel labelTitulo;
+	JMenuBar menuBar;
+	JMenu menuCadastro;
+	JMenuItem menuItem;
 
 	public TelaListaProfessor(TelaCadastroProfessor tela) {
 		this.telaCadastroProfessor = tela;
@@ -41,6 +34,15 @@ public class TelaListaProfessor extends JFrame {
 	    setResizable(false);
 	    setSize(600, 500);
 	    setLocation(100, 100);
+	    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    
+	    menuCadastro = new JMenu("Cadastrar nova Disciplina");
+	    menuItem = new JMenuItem("Ir para cadastro");
+        menuItem.addActionListener(e -> {
+        	this.telaCadastroProfessor.setVisible(true);
+        	this.dispose();
+        });
+        menuCadastro.add(menuItem);
 
 	    labelTitulo = new JLabel("Lista de professores");
 	    labelTitulo.setFont(new Font("Calibri", Font.BOLD, 20));
@@ -65,18 +67,12 @@ public class TelaListaProfessor extends JFrame {
 	            }
 	        }
 	    });
-
+	    
+	    menuBar = new JMenuBar();
+        menuBar.add(menuCadastro);
+        setJMenuBar(menuBar);
 	    add(labelTitulo);
 	    add(scrollPane);
-
-	    addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	            TelaListaProfessor tela = (TelaListaProfessor) e.getWindow();
-	            tela.dispose();
-	            tela.telaCadastroProfessor.setVisible(true);
-	        }
-	    });
 
 	    setLayout(null);
 
