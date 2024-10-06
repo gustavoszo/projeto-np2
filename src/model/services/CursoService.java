@@ -17,8 +17,8 @@ public class CursoService {
 		}
 	}
 	
-	public Curso findById(Curso curso) {
-		return cursoDao.findById(String.valueOf(curso.getId()));
+	public Curso findById(String id) {
+		return cursoDao.findById(id);
 	}
 	
 	public List<Curso> findAll() {

@@ -17,8 +17,8 @@ public class AlunoService {
 		}
 	}
 	
-	public Aluno findById(Aluno aluno) {
-		return alunoDao.findById(String.valueOf(aluno.getId()));
+	public Aluno findById(String id) {
+		return alunoDao.findById(id);
 	}
 	
 	public List<Aluno> findAll() {

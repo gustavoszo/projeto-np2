@@ -81,7 +81,7 @@ public class TelaCadastroCurso extends JFrame {
         labelErrorCurso.setForeground(Color.red);
         
         labelErrorPeriodo = new JLabel("");
-        labelErrorPeriodo.setLocation(250, 170);
+        labelErrorPeriodo.setLocation(310, 170);
         labelErrorPeriodo.setSize(120, 30);
         labelErrorPeriodo.setForeground(Color.red);
 
@@ -95,15 +95,15 @@ public class TelaCadastroCurso extends JFrame {
 
         radioManha = new JRadioButton("Manhã", false);
         radioManha.setLocation(35, 170);
-        radioManha.setSize(60, 30);
+        radioManha.setSize(80, 30);
 
         radioTarde = new JRadioButton("Tarde", false);
-        radioTarde.setLocation(105, 170);
-        radioTarde.setSize(60, 30);
+        radioTarde.setLocation(115, 170);
+        radioTarde.setSize(70, 30);
 
         radioNoite = new JRadioButton("Noite", false);
-        radioNoite.setLocation(170, 170);
-        radioNoite.setSize(60, 30);
+        radioNoite.setLocation(190, 170);
+        radioNoite.setSize(80, 30);
 
         groupPeriodo = new ButtonGroup();
         groupPeriodo.add(radioManha);
@@ -111,7 +111,7 @@ public class TelaCadastroCurso extends JFrame {
         groupPeriodo.add(radioNoite);
 
         btnSalvar = new JButton("Salvar");
-        btnSalvar.setLocation(10, 280);
+        btnSalvar.setLocation(10, 260);
         btnSalvar.setSize(100, 30);
         btnSalvar.addActionListener(new ActionListener() {
 			@Override
@@ -121,7 +121,7 @@ public class TelaCadastroCurso extends JFrame {
         });
 
         btnLimpar = new JButton("Limpar");
-        btnLimpar.setLocation(130, 280);
+        btnLimpar.setLocation(130, 260);
         btnLimpar.setSize(100, 30);
         btnLimpar.addActionListener(new ActionListener() {
 			@Override
@@ -132,7 +132,7 @@ public class TelaCadastroCurso extends JFrame {
 
         btnConsultar = new JButton("Consultar");
         btnConsultar.setSize(100, 30);
-        btnConsultar.setLocation(250, 280);
+        btnConsultar.setLocation(250, 260);
         btnConsultar.addActionListener(e -> {
             TelaListaCurso telaListaCurso = new TelaListaCurso(this);
             telaListaCurso.setVisible(true);
@@ -141,7 +141,7 @@ public class TelaCadastroCurso extends JFrame {
 
         btnDeletar = new JButton("Deletar");
         btnDeletar.setSize(100, 30);
-        btnDeletar.setLocation(370, 280);
+        btnDeletar.setLocation(370, 260);
         btnDeletar.setVisible(false);
         btnDeletar.addActionListener(e -> {
         	int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente apagar o curso?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -153,7 +153,7 @@ public class TelaCadastroCurso extends JFrame {
         		btnLimparActionListener(e);
         		unloadCurso();
         	} catch (DbException ex) {
-        		JOptionPane.showMessageDialog(null, "Ocorreu um erro ao apagar o curso: " + ex.getMessage());
+        		JOptionPane.showMessageDialog(null, ex.getMessage());
         	}
         	
         });
@@ -217,8 +217,8 @@ public class TelaCadastroCurso extends JFrame {
     		}
     	}
     	
-    	catch (DbException sqlEx) {
-    		JOptionPane.showMessageDialog(null, sqlEx.getMessage());
+    	catch (DbException dbEx) {
+    		JOptionPane.showMessageDialog(null, dbEx.getMessage());
     	}
     }
     
@@ -230,7 +230,7 @@ public class TelaCadastroCurso extends JFrame {
     }
     
     public void loadCurso(Curso curso) {
-    	labelTitulo.setText("Editando o curso ID: " + curso.getId());
+    	labelTitulo.setText("Editando o curso ID " + curso.getId());
     	btnDeletar.setVisible(true);
     	
     	this.curso = curso;
@@ -249,9 +249,9 @@ public class TelaCadastroCurso extends JFrame {
     }
     
     public void unloadCurso() {
+    	this.curso = new Curso();
     	labelTitulo.setText("CADASTRO DE CURSO");
     	btnDeletar.setVisible(false);
-    	this.curso = new Curso();
     }
     
     // Getters e Setters

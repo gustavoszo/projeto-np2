@@ -17,8 +17,8 @@ public class ProfessorService {
 		}
 	}
 	
-	public Professor findById(Professor professor) {
-		return professorDao.findById(String.valueOf(professor.getId()));
+	public Professor findById(String id) {
+		return professorDao.findById(id);
 	}
 	
 	public List<Professor> findAll() {

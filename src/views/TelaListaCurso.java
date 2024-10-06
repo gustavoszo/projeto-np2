@@ -85,7 +85,9 @@ public class TelaListaCurso extends JFrame {
         table.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		tableMouseListener(e);
+        		if (e.getClickCount() == 2) {
+        			tableMouseListener(e);        			
+        		}
         	}
         });
 
@@ -97,22 +99,21 @@ public class TelaListaCurso extends JFrame {
     }
     
     
-    private void tableMouseListener(MouseEvent e) {
-    	if (e.getClickCount() == 2) {
-    		 int selectedRow = table.getSelectedRow();
-    	     if (selectedRow != -1) { // Verifica se há uma linha selecionada
-    	         Integer id = (Integer) table.getValueAt(selectedRow, 0);
-    	         String curso = (String) table.getValueAt(selectedRow, 1);
-    	         String periodo = (String) table.getValueAt(selectedRow, 2);
-    	            
-    	         this.telaCadastroCurso.loadCurso(new Curso(id, curso, periodo));
-    	         this.dispose();
-    	         this.telaCadastroCurso.setVisible(true);
-    	     } else {
-    	         JOptionPane.showMessageDialog(null, "Nenhum curso selecionado!", "Erro", JOptionPane.INFORMATION_MESSAGE);
-    	     }
-    	}
-    }
+	private void tableMouseListener(MouseEvent e) {
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow != -1) { // Verifica se há uma linha selecionada
+			Integer id = (Integer) table.getValueAt(selectedRow, 0);
+			String curso = (String) table.getValueAt(selectedRow, 1);
+			String periodo = (String) table.getValueAt(selectedRow, 2);
+
+			this.telaCadastroCurso.loadCurso(new Curso(id, curso, periodo));
+			this.dispose();
+			this.telaCadastroCurso.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(null, "Nenhum curso selecionado!", "Erro", JOptionPane.INFORMATION_MESSAGE);
+		}
+
+	}
     
     // Getters e Setters
 	public TelaCadastroCurso getTelaCadastroCurso() {

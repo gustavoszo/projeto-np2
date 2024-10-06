@@ -41,7 +41,7 @@ public class Curso {
 	
 	@Override
 	public String toString() {
-		return this.nome;
+		return this.nome + " | " + this.periodo;
 	}
 
 }

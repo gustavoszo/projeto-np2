@@ -38,7 +38,7 @@ public class CursoController {
 		}
 		
 		if (curso.getPeriodo() == null) {
-			exception.setError("periodo", "Selecione o perido");
+			exception.setError("periodo", "Selecione o periodo");
 			valid = false;
 		}
 		

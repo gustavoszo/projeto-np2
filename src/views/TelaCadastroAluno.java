@@ -2,8 +2,10 @@ package views;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -13,13 +15,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.text.MaskFormatter;
 
 public class TelaCadastroAluno extends JFrame {
 	
 	private TelaHome home;
 
 	private JLabel nome, cpf, email, dataNascimento, idCurso;
-	private JTextField nomeField, cpfField, emailField, dataNascField;
+	private JTextField nomeField, cpfField, emailField;
+	private JFormattedTextField dataNascField;
 	private JList<String> listaCursos;
 	private JButton btnSalvar, btnLimpar, btnConsultar, btnDeletar;
 	private JMenuBar menuBar;
@@ -69,9 +73,15 @@ public class TelaCadastroAluno extends JFrame {
 
 		emailField = new JTextField();
 		emailField.setBounds(180, 110, 200, 25);
-
-		dataNascField = new JTextField();
-		dataNascField.setBounds(180, 150, 200, 25);
+		
+		// Inicializando o JFormattedTextField para a data de nascimento
+        try {
+            MaskFormatter maskFormatter = new MaskFormatter("##/##/####");
+            dataNascField = new JFormattedTextField(maskFormatter);
+            dataNascField.setBounds(180, 150, 200, 25);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 		// List
 		listaCursos = new JList<>();

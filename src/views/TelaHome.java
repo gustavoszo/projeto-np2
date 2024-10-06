@@ -11,7 +11,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import controllers.CursoController;
+import controllers.DisciplinaController;
 import model.entities.Curso;
+import model.entities.Disciplina;
+import model.services.CursoService;
 
 public class TelaHome extends JFrame implements ActionListener {
 
@@ -106,7 +109,10 @@ public class TelaHome extends JFrame implements ActionListener {
         }
         
         if (e.getSource() == menuDisciplina) {
-        	new TelaCadastroDisciplina(this).setVisible(true);
+        	TelaCadastroDisciplina telaCadastroDisciplina = new TelaCadastroDisciplina(this);
+        	telaCadastroDisciplina.setDisciplinaController(new DisciplinaController());
+        	telaCadastroDisciplina.setDisciplina(new Disciplina());
+        	telaCadastroDisciplina.setVisible(true);
         	this.setVisible(false);
         }
         

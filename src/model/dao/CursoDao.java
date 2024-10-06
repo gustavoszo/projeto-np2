@@ -99,8 +99,28 @@ public class CursoDao implements EntityDao<Curso> {
 
 	@Override
 	public Curso findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			preparedStatement = connection.prepareStatement("SELECT * FROM cursos WHERE id_curso = ?");
+			preparedStatement.setInt(1, Integer.parseInt(id));
+			resultSet = preparedStatement.executeQuery();
+			
+			Curso curso = new Curso();
+			if (resultSet.next()) {
+				curso.setId(resultSet.getInt("id_curso"));
+				curso.setNome(resultSet.getString("nome"));
+				curso.setPeriodo(resultSet.getString("periodo"));
+			}
+			return curso;
+			
+		} catch (SQLException e) {
+			throw new DbException("Ocorreu um erro ao buscar o curso: " + e.getMessage());
+		} finally {
+			Db.closeResultSet(resultSet);
+			Db.closeStatement(preparedStatement);
+		}
 	}
 
 	@Override
@@ -120,7 +140,5 @@ public class CursoDao implements EntityDao<Curso> {
 		}
 		
 	}
-	
-	
 	
 }
